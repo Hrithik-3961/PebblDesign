@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "570257214474",
+    "project_id": "pebbl-701a8",
+    "storage_bucket": "pebbl-701a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570257214474:android:21c726a448b6fffe82a3f3",
+        "android_client_info": {
+          "package_name": "com.innov8itTechnologies.pebbl_design"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "570257214474-d70ql3nplm0plkpuq3tgdukn5umkeicc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_IpEuO2dIISDEUBqAKRsFP1dR_NqAp3I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "570257214474-d70ql3nplm0plkpuq3tgdukn5umkeicc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
