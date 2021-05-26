@@ -1,13 +1,13 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:pebbl_design/shared.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:pebbl_design/screens/Home/home.dart';
+import 'package:pebbl_design/shared/shared.dart';
 
 class Address extends StatefulWidget {
   @override
@@ -28,11 +28,14 @@ class _AddressState extends State<Address> {
     super.initState();
   }
 
+  Future<Position> get position =>
+      Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
   _getCurrentLocation() async {
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position pos = await position;
     setState(() {
-      latitude = position.latitude;
-      longitude = position.longitude;
+      latitude = pos.latitude;
+      longitude = pos.longitude;
       address = "$latitude, $longitude";
     });
   }
@@ -128,33 +131,64 @@ class _AddressState extends State<Address> {
                                       BorderRadius.all(Radius.circular(5)),
                                   border: Border.all(color: Colors.black87),
                                 ),
-                                child: GoogleMap(
-                                  mapType: MapType.normal,
-                                  initialCameraPosition: CameraPosition(
-                                    target: LatLng(latitude, longitude),
-                                    zoom: 20,
-                                  ),
-                                  markers: Set<Marker>.of(
-                                    <Marker>[
-                                      Marker(
-                                          draggable: true,
-                                          markerId: MarkerId("Marker"),
-                                          position: LatLng(latitude, longitude),
-                                          icon: BitmapDescriptor.defaultMarker,
-                                          onDragEnd: ((newPosition) {
-                                            print("LOCATION: ${newPosition.latitude}, ${newPosition.longitude}");
-                                            setState(() {
-                                              latitude = newPosition.latitude;
-                                              longitude = newPosition.longitude;
-                                            });
-                                          }))
-                                    ],
-                                  ),
-                                  onMapCreated:
-                                      (GoogleMapController controller) {
-                                    _controller.complete(controller);
-                                  },
-                                ),
+                                child: FutureBuilder(
+                                    future: position,
+                                    builder: (context,
+                                        AsyncSnapshot<Position> snapshot) {
+                                      return snapshot.data != null
+                                          ? GoogleMap(
+                                              mapType: MapType.normal,
+                                              initialCameraPosition:
+                                                  CameraPosition(
+                                                target: LatLng(
+                                                    snapshot.data!.latitude,
+                                                    snapshot.data!.longitude),
+                                                zoom: 18.5,
+                                              ),
+                                              markers: Set<Marker>.of(
+                                                <Marker>[
+                                                  Marker(
+                                                      draggable: true,
+                                                      markerId:
+                                                          MarkerId("Marker"),
+                                                      position: LatLng(
+                                                          latitude, longitude),
+                                                      icon: BitmapDescriptor
+                                                          .defaultMarker,
+                                                      onDragEnd:
+                                                          ((newPosition) {
+                                                        print(
+                                                            "LOCATION: ${newPosition.latitude}, ${newPosition.longitude}");
+                                                        setState(() {
+                                                          latitude = newPosition
+                                                              .latitude;
+                                                          longitude =
+                                                              newPosition
+                                                                  .longitude;
+                                                        });
+                                                      }))
+                                                ],
+                                              ),
+                                              onMapCreated: (GoogleMapController
+                                                  controller) {
+                                                _controller
+                                                    .complete(controller);
+                                              },
+                                            )
+                                          : Container(
+                                              child: Center(
+                                                child: Text(
+                                                  "Getting your location...",
+                                                  style: TextStyle(
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.05),
+                                                ),
+                                              ),
+                                            );
+                                    }),
                               )
                             ],
                           ),
@@ -164,10 +198,12 @@ class _AddressState extends State<Address> {
                     Expanded(child: Container()),
                     TextButton(
                       onPressed: () {
-                        /*if (_formKey.currentState!.validate())
-                          Navigator.of(context).push(PageTransition(
-                              child: Address(),
-                              type: PageTransitionType.rightToLeft));*/
+                        if (_formKey.currentState!.validate())
+                          Navigator.of(context).pushAndRemoveUntil(
+                              PageTransition(
+                                  child: Home(),
+                                  type: PageTransitionType.rightToLeft),
+                              (route) => false);
                       },
                       child: Text(
                         "Next",

@@ -2,8 +2,8 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pebbl_design/mobile_verification.dart';
-import 'package:pebbl_design/shared.dart';
+import 'package:pebbl_design/screens/Register/mobile_verification.dart';
+import 'package:pebbl_design/shared/shared.dart';
 
 class PersonalDetails extends StatefulWidget {
   @override

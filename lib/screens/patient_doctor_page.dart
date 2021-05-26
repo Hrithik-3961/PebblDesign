@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pebbl_design/shared.dart';
-import 'package:pebbl_design/personal_details.dart';
+import 'package:pebbl_design/screens/Register/personal_details.dart';
+import 'package:pebbl_design/shared/shared.dart';
 
-class HomePage extends StatelessWidget {
+class PatientDoctorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(appBar: AppBar()),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
+          padding:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
           child: Column(
             children: [
               RichText(

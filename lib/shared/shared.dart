@@ -31,6 +31,34 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => new Size.fromHeight(appBar.preferredSize.height);
 }
 
+class MyAppBar2 extends StatelessWidget implements PreferredSizeWidget {
+  final AppBar appBar;
+
+  MyAppBar2({required this.appBar});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+        backgroundColor: Colors.grey[100],
+        centerTitle: false,
+        title: Image.asset(
+          "assets/images/logo.jpeg",
+          width: MediaQuery.of(context).size.width * 0.4,
+          height: MediaQuery.of(context).size.height * 0.025,
+        ),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.send_sharp),
+            color: Colors.black,
+          )
+        ]);
+  }
+
+  @override
+  Size get preferredSize => new Size.fromHeight(appBar.preferredSize.height);
+}
+
 const textInputDecoration = InputDecoration(
   labelStyle: TextStyle(color: Colors.grey),
   focusColor: Colors.black,
@@ -39,7 +67,7 @@ const textInputDecoration = InputDecoration(
   enabledBorder:
       OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
   disabledBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
   focusedBorder:
       OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
   errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
